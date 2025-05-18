@@ -8,7 +8,7 @@ mongo_pass = os.getenv('MONGO_PASS')
 if not mongo_pass:
     raise EnvironmentError("MONGO_PASS has not been set in the environment variables.")
 
-MONGO_URI = f"mongodb+srv://malhar311002:{mongo_pass}@jtp-technical-project.kjpcv6p.mongodb.net/"
+MONGO_URI = f"{mongo_pass}"
 
 DATABASE_NAME = "music_db"
 TRACKS_COLLECTION = "tracks"
