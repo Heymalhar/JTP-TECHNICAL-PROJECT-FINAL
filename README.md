@@ -29,7 +29,10 @@ Follow the steps below to install and run the project locally:
    - Download the repository as a `.zip` file and extract it.
 
 2. **requirements.txt**
-   - Make sure you have installed all the python dependencies mentioned in the file 'requirements.txt'.
+   - Make sure you have installed all the python dependencies mentioned in the file 'requirements.txt'. You can use the command given below for the same.
+     ```
+     pip install -r requirements.txt
+     ```
 
 3. **Create a `.env` File**
    - In the root (parent) directory of the project, create a file named `.env`.
