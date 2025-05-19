@@ -28,14 +28,17 @@ Follow the steps below to install and run the project locally:
 1. **Download and Extract**
    - Download the repository as a `.zip` file and extract it.
 
-2. **Create a `.env` File**
+2. **requirements.txt**
+   - Make sure you have installed all the python dependencies mentioned in the file 'requirements.txt'.
+
+3. **Create a `.env` File**
    - In the root (parent) directory of the project, create a file named `.env`.
    - Add your MongoDB connection string in the following format:
      ```
      MONGO_PASS=your_mongodb_connection_string_here
      ```
 
-3. **Start the Frontend**
+4. **Start the Frontend**
    - Open a terminal and navigate to the `frontend` directory:
      ```
      cd frontend
@@ -49,7 +52,7 @@ Follow the steps below to install and run the project locally:
      npm run dev
      ```
 
-4. **Start the Backend**
+5. **Start the Backend**
    - Open another terminal window.
    - Navigate to the `backend` directory:
      ```
@@ -60,7 +63,7 @@ Follow the steps below to install and run the project locally:
      python app.py
      ```
 
-5. **Access the Application**
+6. **Access the Application**
    - Visit the following URL in your browser to start using the system:
      ```
      http://localhost:3000
