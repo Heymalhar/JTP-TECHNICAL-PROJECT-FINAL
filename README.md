@@ -77,6 +77,7 @@ Follow the steps below to install and run the project locally:
 - **Backend:** Python (Flask)
 - **Database:** MongoDB
 - **Recommendation Algorithm:** Cosine Similarity
+- **Dataset Source:** Kaggle (https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset)
 
 ---
 
