@@ -5,7 +5,7 @@ from recommender.engine import(
     recommend_tracks,
     store_recommendations
 )
-from database.db import tracks_col
+from database.db import tracks_col, users_col
 
 routes = Blueprint("routes", __name__)
 
@@ -24,7 +24,7 @@ def recommend():
 
         combination_key = "_".join(map(str, sorted(input_ids)))
 
-        user_doc = tracks_col.database["user_info"].find_one({"username": username})
+        user_doc = users_col.find_one({"username": username})
         seen_ids = user_doc.get("recommendation_history", {}).get(combination_key, []) if user_doc else []
 
         recommendations = recommend_tracks(input_vector, input_ids, seen_ids)
