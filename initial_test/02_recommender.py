@@ -10,7 +10,7 @@ load_dotenv()
 
 mongo_pass = os.getenv('MONGO_PASS')
 
-MONGO_URI = f"mongodb+srv://malhar311002:{mongo_pass}@jtp-technical-project.kjpcv6p.mongodb.net/"
+MONGO_URI = f"{mongo_pass}"
 DATABASE_NAME = "music_db"
 TRACKS_COLLECTION = "tracks"
 USERS_COLLECTION = "user_info"
