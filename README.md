@@ -32,7 +32,7 @@ Follow the steps below to install and run the project locally:
    - In the root (parent) directory of the project, create a file named `.env`.
    - Add your MongoDB connection string in the following format:
      ```
-     mongo_pass=your_mongodb_connection_string_here
+     MONGO_PASS=your_mongodb_connection_string_here
      ```
 
 3. **Start the Frontend**
