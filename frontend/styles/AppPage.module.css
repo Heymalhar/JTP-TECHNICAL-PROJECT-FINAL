@@ -1,0 +1,196 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #0e0e16;
+    font-family: 'Poppins', sans-serif;
+    color: #f0f0f0;
+    padding: relative;
+}
+
+.container::before,
+.container::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    filter: blur(30px);
+    opacity: 0.12;
+    mix-blend-mode: screen;
+}
+
+.container::before {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    width: 260px;
+    height: 260px;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    top: -100px;
+    left: -60px;
+    transform: rotate(30deg);
+}
+
+.container::after {
+    background: linear-gradient(45deg, #ec4899, #9333ea);
+    width: 300px;
+    height: 300px;
+    clip-path: circle(40% at 75% 25%);
+    bottom: -100px;
+    right: -80px;
+    transform: rotate(-10deg);
+}
+
+.appCard {
+    background: rgba(20, 20, 30, 0.85);
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+}
+
+.heading {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.trackInputSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.trackField Label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.trackInput {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #1c1c2a;
+    color: #fff;
+}
+
+.suggestions {
+    list-style: none;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0;
+    background-color: #111421;
+    border: 1px solid #333;
+    border-radius: 6px;
+    max-height: 150px;
+    overflow-y: auto;
+    color: #f0f0f0;
+    cursor: pointer;
+}
+
+.suggestionItem {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: #f0f0f0;
+}
+
+.suggestionItem:hover {
+    background-color: #2b2d42;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.buttonPrimary,
+.buttonSecondary,
+.logoutButton {
+    padding: 0.75rem 1.25rem;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.buttonPrimary {
+    background: linear-gradient(to right, #6366f1, #ec4899);
+    color: white;
+    border: none;
+}
+
+.buttonPrimary:hover {
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+}
+
+.buttonSecondary {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #666;
+    color: #ccc;
+}
+
+.buttonSecondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.logoutButton {
+    background: none;
+    border: 1px solid #ff5e5e;
+    color: #ffbcbc;
+}
+
+.logoutButton:hover {
+    background: #ff5e5e;
+    color: #fff;
+}
+
+.error {
+    color: #ff7b7b;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.results {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    background-color: #1c1c2a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #f0f0f0;
+}
+
+.results h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5rem;
+}
+
+.results ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.results li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #333;
+    font-size: 1rem;
+}
+
+.results li:last-child{
+    border-bottom: none;
+}
+
+.results li strong {
+    color: #93c5fd;
+}
