@@ -1,98 +1,140 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import styles from "../styles/LoginPage.module.css"
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-export default function LoginPage() {
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #0f111a;
+    font-family: 'Poppins', sans-serif;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState<string | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
+.container::before,
+.container::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    filter: blur(30px);
+    opacity: 0.12;
+    mix-blend-mode: screen;
+}
 
-    const router = useRouter();
+.container::before {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    width: 260px;
+    height: 260px;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    top: -100px;
+    left: -60px;
+    transform: rotate(30deg);
+}
 
-    async function handleLogin(event: React.FormEvent) {
-        
-        event.preventDefault();
-        setError(null);
-        setMessage(null);
+.container::after {
+    background: linear-gradient(45deg, #ec4899, #9333ea);
+    width: 300px;
+    height: 300px;
+    clip-path: circle(40% at 75% 25%);
+    bottom: -100px;
+    right: -80px;
+    transform: rotate(-10deg);
+}
 
-        if(!username || !password) {
-            setError("Username and password are required.");
-            return;
-        }
+.card {
+    background-color: rgba(20, 22, 33, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);    
+    max-width: 480px;
+    width: 100%;
+    z-index: 1;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.07)
+}
 
-        try {
+.title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+}
 
-            const response = await fetch("http://localhost:5000/api/login", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, password}),
-            });
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
 
-            const data = await response.json();
+.label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    color: #cbd5e1;
+    font-size: 1rem;
+    text-align: left;
+}
 
-            if (!response.ok) {
-                setError(data.error || "Login Failed.");
-                return;
-            }
+.input {
+    margin-top: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #4b5563;
+    background-color: #1f2937;
+    color: #e5e7eb;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
 
-            setMessage(data.message || "Login Successful!");
-            localStorage.setItem("loggedInUsername", username);
+.input:focus {
+    border-color: #3b82f6;
+}
 
-            setTimeout(() => {
-                router.push("/app");
-            }, 1000);
+.submitButton {
+    margin-top: 1rem;
+    padding: 0.9rem 2rem;
+    background: linear-gradient(45deg, #3b82f6, #06b6d4);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        } catch {
-            setError("Something went wrong. Please try again.")
-        }
+.submitButton:hover,
+.submitButton:focus {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(59, 130, 246, 0.5);
+    outline: none;
+}
 
+.error {
+    margin-top: 1rem;
+    color: #f87171;
+    font-weight: 500;
+    text-shadow: 0 1px 4px rgba(255, 0, 0, 0.3);
+}
+
+.success {
+    margin-top: 1rem;
+    color: #34d399;
+    font-weight: 500;
+    text-shadow: 0 1px 4px rgba(0, 255, 10, 0.3);
+}
+
+@media (max-width: 500px) {
+    .title {
+        font-size: 1.75rem;
     }
 
-    return (
-        
-        <main className={styles.container}>
-
-            <section className={styles.card}>
-
-                <h1 className={styles.title}>Login</h1>
-                
-                <form onSubmit={handleLogin} className={styles.form}>
-
-                    <label className={styles.label}>
-                        Username
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className={styles.input}
-                        />
-                    </label>
-
-                    <label className={styles.label}>
-                        Password
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={styles.input}
-                        />
-                    </label>
-
-                    <button type="submit" className={styles.submitButton}>
-                        Login
-                    </button>
-
-                </form>
-
-                {error && <p className={styles.error}>{error}</p>}
-                {message && <p className={styles.success}>{message}</p>}
-
-            </section>
-
-        </main>
-
-    )
-
+    .submitButton{
+        width: 100%;
+    }
 }
