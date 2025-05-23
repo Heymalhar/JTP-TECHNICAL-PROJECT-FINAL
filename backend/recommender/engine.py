@@ -128,6 +128,7 @@ def previous_recommendations(username, track_names):
     recommend_tracks = []
     for tid in recommended_ids:
         doc = tracks_col.find_one({"track_id": tid}, {
+            "_id": 0,
             "track_id": 1,
             "track_name": 1,
             "artists": 1,
