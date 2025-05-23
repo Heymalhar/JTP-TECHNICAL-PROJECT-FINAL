@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { useRouter } from "next/router";
+import styles from "../styles/SignupPage.module.css";
 
 export default function SignupPage() {
 
@@ -50,45 +51,54 @@ export default function SignupPage() {
 
     return (
 
-        <main>
+        <main className={styles.container}>
 
-            <h1>Sign Up Page</h1>
+            <section className={styles.card}>
 
-            <form onSubmit={handleSignup}>
+                <h1 className={styles.title}>Create Your Account</h1>
 
-                <div>
-                    <label>Username: </label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
+                <form onSubmit={handleSignup} className={styles.form}>
 
-                <div>
-                    <label>Email: </label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
+                    <label className={styles.label}>
+                        Username
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className={styles.input}
+                        />
+                    </label>
 
-                <div>
-                    <label>Password: </label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
+                    <label className={styles.label}>
+                        Email
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className={styles.input}
+                        />
+                    </label>
 
-                <button type="submit">Sign Up</button>
+                    <label className={styles.label}>
+                        Password
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={styles.input}
+                        />
+                    </label>
 
-            </form>
+                    <button type="submit" className={styles.submitButton}>
+                        Sign Up
+                    </button>
 
-            {error && <p style={{color: "red"}}>{error}</p>}
-            {message && <p style={{color: "green"}}>{message}</p>}
+                </form>
+
+                {error && <p className={styles.error}>{error}</p>}
+                {message && <p className={styles.success}>{message}</p>}
+
+            </section>
 
         </main>
 
