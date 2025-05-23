@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import styles from "../styles/LoginPage.module.css"
 
 export default function LoginPage() {
 
@@ -51,36 +52,44 @@ export default function LoginPage() {
 
     return (
         
-        <main>
+        <main className={styles.container}>
 
-            <h1>Login Page</h1>
+            <section className={styles.card}>
 
-            <form onSubmit={handleLogin}>
+                <h1 className={styles.title}>Login</h1>
+                
+                <form onSubmit={handleLogin} className={styles.form}>
 
-                <div>
-                    <label>Username: </label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
+                    <label className={styles.label}>
+                        Username
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className={styles.input}
+                        />
+                    </label>
 
-                <div>
-                    <label>Password: </label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
+                    <label className={styles.label}>
+                        Password
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={styles.input}
+                        />
+                    </label>
 
-                <button type="submit">Login</button>
+                    <button type="submit" className={styles.submitButton}>
+                        Login
+                    </button>
 
-            </form>
+                </form>
 
-            {error && <p style={{color: "red"}}>{error}</p>}
-            {message && <p style={{color: "green"}}></p>}
+                {error && <p className={styles.error}>{error}</p>}
+                {message && <p className={styles.success}>{message}</p>}
+
+            </section>
 
         </main>
 
