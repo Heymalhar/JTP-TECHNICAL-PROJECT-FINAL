@@ -1,244 +1,249 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/AppPage.module.css";
- 
+
+type Track = {
+  track_name: string;
+  artists: string;
+  track_genre?: string;
+  popularity: number;
+  similarity_score: number;
+};
+
 export default function AppPage() {
- 
-    const router = useRouter();
- 
-    const [username, setUsername] = useState<string | null>(null);
-    const [trackInputs, setTrackInputs] = useState(["", "", ""]);
-    const [suggestions, setSuggestions] = useState<string[][]>([[], [], []]);
-    const [recommendations, setRecommendations] = useState<any[] | null>(null);
-    const [history, setHistory] = useState<any[] | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
-    const [buttonLabel, setButtonLabel] = useState("Get Recommendations");
- 
-    useEffect(() => {
- 
-        const storedUser = localStorage.getItem("loggedInUsername");
-        if (!storedUser) {
-            router.push("/login");
-        } else {
-            setUsername(storedUser);
-        }
- 
-    }, []);
- 
-    function logout(){
-        localStorage.removeItem("loggedInUsername");
-        router.push("/");
+
+  const router = useRouter();
+
+  const [username, setUsername] = useState<string | null>(null);
+  const [trackInputs, setTrackInputs] = useState(["", "", ""]);
+  const [suggestions, setSuggestions] = useState<string[][]>([[], [], []]);
+  const [recommendations, setRecommendations] = useState<Track[] | null>(null);
+  const [history, setHistory] = useState<Track[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [buttonLabel, setButtonLabel] = useState("Get Recommendations");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("loggedInUsername");
+    if (!storedUser) {
+      router.push("/login");
+    } else {
+      setUsername(storedUser);
     }
- 
-    useEffect(() => {
- 
-        const timeout = setTimeout(() => {
-            trackInputs.forEach((val, idx) => {
-                if (val.trim()) {
-                    fetch(`http://localhost:5000/api/tracks?query=${encodeURIComponent(val.trim())}`)
-                        .then((res) => res.json())
-                        .then((data) => {
-                            const updated = [...suggestions];
-                            updated[idx] = data.tracks || [];
-                            setSuggestions(updated);
-                        })
-                        .catch(() => {});
-                }
-            });
-        }, 300);
- 
-        return () => clearTimeout(timeout)
- 
-    }, [trackInputs]);
- 
-    function handleTrackChange(index: number, value: string){
-        const updated = [...trackInputs];
-        updated[index] = value;
-        setTrackInputs(updated);
- 
-        const cleared = [...suggestions];
-        cleared[index] = [];
-        setSuggestions(cleared);
-    }
- 
-    function selectSuggestion(index: number, value: string){
-        const updated = [...trackInputs];
-        updated[index] = value;
-        setTrackInputs(updated);
- 
-        const cleared = [...suggestions];
-        cleared[index] = [];
-        setSuggestions(cleared)
-    }
+  }, [router]);
 
-    async function handleRecommend() {
+  function logout() {
+    localStorage.removeItem("loggedInUsername");
+    router.push("/");
+  }
 
-        if (!username || trackInputs.some((t) => !t.trim())){
-            setError("All three track names must be filled.");
-            return;
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      trackInputs.forEach((val, idx) => {
+        if (val.trim()) {
+          fetch(`http://localhost:5000/api/tracks?query=${encodeURIComponent(val.trim())}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setSuggestions((prev) => {
+                const updated = [...prev];
+                updated[idx] = data.tracks || [];
+                return updated;
+              });
+            })
+            .catch(() => { });
         }
+      });
+    }, 300);
 
-        setError(null);
-        setHistory(null);
-        setRecommendations(null);
+    return () => clearTimeout(timeout);
+  }, [trackInputs]);
 
-        setButtonLabel("Loading...")
+  function handleTrackChange(index: number, value: string) {
+    const updated = [...trackInputs];
+    updated[index] = value;
+    setTrackInputs(updated);
 
-        const trimmedTracks = trackInputs.map((t) => t.trim());
+    const cleared = [...suggestions];
+    cleared[index] = [];
+    setSuggestions(cleared);
+  }
 
-        try {
+  function selectSuggestion(index: number, value: string) {
+    const updated = [...trackInputs];
+    updated[index] = value;
+    setTrackInputs(updated);
 
-            const response = await fetch("http://localhost:5000/api/recommend", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, track_names: trimmedTracks}),
-            });
+    const cleared = [...suggestions];
+    cleared[index] = [];
+    setSuggestions(cleared);
+  }
 
-            const data = await response.json();
+  async function handleRecommend() {
 
-            if (!response.ok) {
-                setError(data.error || "Recommendation Failed.");
-                return;
-            }
-
-            setRecommendations(data.recommendations || []);
-            setButtonLabel("Get More Recommendations");
-
-        } catch {
-            setError("Failed to get recommendations.");
-        }
-        
+    if (!username || trackInputs.some((t) => !t.trim())) {
+      setError("All three track names must be filled.");
+      return;
     }
 
-    async function handleHistory() {
+    setError(null);
+    setHistory(null);
+    setRecommendations(null);
 
-        if(!username || trackInputs.some((t) => !t.trim())){
-            setError("All three track names must be filled.");
-            return;
-        }
+    setButtonLabel("Loading...");
 
-        setError(null);
-        setRecommendations(null);
-        setHistory(null);
+    const trimmedTracks = trackInputs.map((t) => t.trim());
 
-        const trimmedTracks = trackInputs.map((t) => t.trim());
+    try {
 
-        try {
+      const response = await fetch("http://localhost:5000/api/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, track_names: trimmedTracks }),
+      });
 
-            const response = await fetch("http://localhost:5000/api/history", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, track_names: trimmedTracks}),
-            });
+      const data = await response.json();
 
-            const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || "Recommendation Failed.");
+        return;
+      }
 
-            if (!response.ok) {
-                setError(data.error || "Failed to fetch history.");
-                return;
-            }
+      setRecommendations(data.recommendations || []);
+      setButtonLabel("Get More Recommendations");
 
-            setHistory(data.history || [{track_name: data.message}])
-
-        } catch {
-            setError("Failed to get history")
-        }
-
+    } catch {
+      setError("Failed to get recommendations.");
     }
 
-    return (
+  }
 
-        <main className={styles.container}>
+  async function handleHistory() {
 
-            <section className={styles.appCard}>
+    if (!username || trackInputs.some((t) => !t.trim())) {
+      setError("All three track names must be filled.");
+      return;
+    }
 
-                <h1 className={styles.heading}>Welcome, {username}</h1>
+    setError(null);
+    setRecommendations(null);
+    setHistory(null);
 
-                <div className={styles.trackInputSection}>
+    const trimmedTracks = trackInputs.map((t) => t.trim());
 
-                    {[0, 1, 2].map((i) => (
-                        <div className={styles.trackField} key={i}>
+    try {
 
-                            <label>{`Track ${i+1}`}</label>
-                            <input
-                                type="text"
-                                value={trackInputs[i]}
-                                onChange={(e) => handleTrackChange(i, e.target.value)}
-                                className={styles.trackInput}
-                            />
-                            {suggestions[i].length > 0 && (
-                                <ul className={styles.suggestions}>
-                                    {suggestions[i].map((track) => (
-                                        <li
-                                            key={track}
-                                            onClick={() => selectSuggestion(i, track)}
-                                            className={styles.suggestionItem}
-                                        >
-                                            {track}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+      const response = await fetch("http://localhost:5000/api/history", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, track_names: trimmedTracks }),
+      });
 
-                        </div>
-                    ))}
+      const data = await response.json();
 
-                </div>
+      if (!response.ok) {
+        setError(data.error || "Failed to fetch history.");
+        return;
+      }
 
-                <div className={styles.buttonGroup}>
-                    <button onClick={handleRecommend} className={styles.buttonPrimary}>
-                        {buttonLabel}
-                    </button>
-                    <button onClick={handleHistory} className={styles.buttonSecondary}>
-                        Show Previous Recommendations
-                    </button>
-                    <button onClick={logout} className={styles.logoutButton}>
-                        Logout
-                    </button>
-                </div>
+      setHistory(data.history || [{ track_name: data.message }]);
 
-                {error && <p className={styles.error}>{error}</p>}
+    } catch {
+      setError("Failed to get history");
+    }
 
-                {recommendations && (
+  }
 
-                    <div className={styles.results}>
+  return (
 
-                        <h2>Recommendations:</h2>
+    <main className={styles.container}>
 
-                        <ul>
-                            {recommendations.map((track, idx) => (
-                                <li key={idx}>
-                                    <strong>{track.track_name}</strong> by {track.artists}
-                                    {track.track_genre && ` (Genre: ${track.track_genre})`} - Popularity:{" "}
-                                    {track.popularity} - Score: {track.similarity_score}
-                                </li>
-                            ))}
-                        </ul>
+      <section className={styles.appCard}>
 
-                    </div>
+        <h1 className={styles.heading}>Welcome, {username}</h1>
 
-                )}
+        <div className={styles.trackInputSection}>
 
-                {history && (
-                    <div className={styles.results}>
-                        <h2>Previous Recommendations:</h2>
-                        <ul>
-                            {history.map((track, idx) => (
-                                <li key={idx}>
-                                    <strong>{track.track_name}</strong> by {track.artists}
-                                    {track.track_genre && ` (Genre: ${track.track_genre})`} - Popularity:{" "}
-                                    {track.popularity} - Score: {track.similarity_score}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+          {[0, 1, 2].map((i) => (
+            <div className={styles.trackField} key={i}>
 
-            </section>
+              <label>{`Track ${i + 1}`}</label>
+              <input
+                type="text"
+                value={trackInputs[i]}
+                onChange={(e) => handleTrackChange(i, e.target.value)}
+                className={styles.trackInput}
+              />
+              {suggestions[i].length > 0 && (
+                <ul className={styles.suggestions}>
+                  {suggestions[i].map((track) => (
+                    <li
+                      key={track}
+                      onClick={() => selectSuggestion(i, track)}
+                      className={styles.suggestionItem}
+                    >
+                      {track}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
-        </main>
+            </div>
+          ))}
 
-    )
- 
+        </div>
+
+        <div className={styles.buttonGroup}>
+          <button onClick={handleRecommend} className={styles.buttonPrimary}>
+            {buttonLabel}
+          </button>
+          <button onClick={handleHistory} className={styles.buttonSecondary}>
+            Show Previous Recommendations
+          </button>
+          <button onClick={logout} className={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
+
+        {error && <p className={styles.error}>{error}</p>}
+
+        {recommendations && (
+
+          <div className={styles.results}>
+
+            <h2>Recommendations:</h2>
+
+            <ul>
+              {recommendations.map((track, idx) => (
+                <li key={idx}>
+                  <strong>{track.track_name}</strong> by {track.artists}
+                  {track.track_genre && ` (Genre: ${track.track_genre})`} - Popularity:{" "}
+                  {track.popularity} - Score: {track.similarity_score}
+                </li>
+              ))}
+            </ul>
+
+          </div>
+
+        )}
+
+        {history && (
+          <div className={styles.results}>
+            <h2>Previous Recommendations:</h2>
+            <ul>
+              {history.map((track, idx) => (
+                <li key={idx}>
+                  <strong>{track.track_name}</strong> by {track.artists}
+                  {track.track_genre && ` (Genre: ${track.track_genre})`} - Popularity:{" "}
+                  {track.popularity} - Score: {track.similarity_score}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+      </section>
+
+    </main>
+
+  );
+
 }
