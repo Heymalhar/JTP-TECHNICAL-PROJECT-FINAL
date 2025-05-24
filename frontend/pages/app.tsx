@@ -232,8 +232,7 @@ export default function AppPage() {
               {history.map((track, idx) => (
                 <li key={idx}>
                   <strong>{track.track_name}</strong> by {track.artists}
-                  {track.track_genre && ` (Genre: ${track.track_genre})`} - Popularity:{" "}
-                  {track.popularity} - Score: {track.similarity_score}
+                  {track.track_genre && ` (Genre: ${track.track_genre})`}
                 </li>
               ))}
             </ul>
