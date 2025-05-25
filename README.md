@@ -35,7 +35,7 @@ Follow the steps below to install and run the project locally:
 
 3. **Setting up Docker Containers**
    - Open the Docker Desktop application on your system.
-   - For the first time using this service, you need to setup the containers and access the application using this command
+   - For the first time using this service, you need to setup the containers and access the application by typing this command in the terminal of the root directory of the project
      ```
      docker compose up --build
      ```
