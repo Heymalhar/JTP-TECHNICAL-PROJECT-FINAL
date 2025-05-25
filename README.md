@@ -44,14 +44,14 @@ Follow the steps below to install and run the project locally:
      docker compose up
      ```
 
-5. **Accessing and using the service**
+4. **Accessing and using the service**
    - Once the docker setup is done, open a browser and navigate to
      ```
      localhost:3000
      ```
    - You will now be able to access the service effortlessly.
 
-6. **Accessing the Database**
+5. **Accessing the Database**
    - To view the data created and managed by the service, open MongoDB Compass.
    - Add a new connection by entering this URI
      ```
