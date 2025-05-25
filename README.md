@@ -31,7 +31,7 @@ Follow the steps below to install and run the project locally:
    - Make sure you have these applications installed in your system:
      i.   Docker Desktop (To manage the containers)
      ii.  MongoDB Compass (To access the data)
-     iii. Any IDE to interact with the project (Preferrably VSCode or IntelliJ IDEA
+     iii. Any IDE to interact with the project (Preferrably VSCode or IntelliJ IDEA)
 
 3. **Setting up Docker Containers**
    - For the first time using this service, you need to setup the containers and access the application using this command
