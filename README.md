@@ -16,8 +16,7 @@ This project provides a personalized music recommendation experience using **cos
 ## 📁 Repository Structure
 
 - `frontend/` – Contains the Next.js frontend application.
-- `backend/` – Contains the Flask backend server logic and recommendation engine.
-- `database/` – Holds configuration related to MongoDB and data storage.
+- `backend/` – Contains the Flask backend server logic and recommendation engine, along with the MongoDB configuration.
 
 ---
 
@@ -28,57 +27,45 @@ Follow the steps below to install and run the project locally:
 1. **Download and Extract**
    - Download the repository as a `.zip` file and extract it.
 
-2. **requirements.txt**
-   - Make sure you have installed all the python dependencies mentioned in the file 'requirements.txt'. You can use the command given below for the same.
+2. **Required Software and Tools**
+   - Make sure you have these applications installed in your system:
+     i.   Docker Desktop (To manage the containers)
+     ii.  MongoDB Compass (To access the data)
+     iii. Any IDE to interact with the project (Preferrably VSCode or IntelliJ IDEA
+
+3. **Setting up Docker Containers**
+   - For the first time using this service, you need to setup the containers and access the application using this command
      ```
-     pip install -r requirements.txt
+     docker compose up --build
+     ```
+   - After this, for the rest of the times accessing the service, use this command
+     ```
+     docker compose up
      ```
 
-3. **Create a `.env` File**
-   - In the root (parent) directory of the project, create a file named `.env`.
-   - Add your MongoDB connection string in the following format:
+4. **Accessing and using the service**
+   - Once the docker setup is done, open a browser and navigate to
      ```
-     MONGO_PASS=your_mongodb_connection_string_here
+     localhost:3000
      ```
+   - You will now be able to access the service effortlessly.
 
-4. **Start the Frontend**
-   - Open a terminal and navigate to the `frontend` directory:
+5. **Accessing the Database**
+   - To view the data created and managed by the service, open MongoDB Compass.
+   - Add a new connection by entering this URI
      ```
-     cd frontend
+     mongodb://localhost:27018
      ```
-   - Install required dependencies:
-     ```
-     npm install next
-     ```
-   - Start the development server:
-     ```
-     npm run dev
-     ```
-
-5. **Start the Backend**
-   - Open another terminal window.
-   - Navigate to the `backend` directory:
-     ```
-     cd backend
-     ```
-   - Run the Flask application:
-     ```
-     python app.py
-     ```
-
-6. **Access the Application**
-   - Visit the following URL in your browser to start using the system:
-     ```
-     http://localhost:3000
-     ```
+   - Once the connection gets set up, you can view the data under it.
 
 ---
 
 ## 📦 Tech Stack
 
 - **Frontend:** Next.js (React.js)
-- **Backend:** Python (Flask)
-- **Database:** MongoDB
+- **Backend:** Python (Flask, Scikit Learn)
+- **Database:** MongoDB Compass
+- **Containers:** Docker Desktop
 - **Recommendation Algorithm:** Cosine Similarity
 - **Dataset Source:** Kaggle (https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset)
 
