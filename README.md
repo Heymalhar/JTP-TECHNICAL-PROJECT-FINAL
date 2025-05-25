@@ -34,6 +34,7 @@ Follow the steps below to install and run the project locally:
      iii. Any IDE to interact with the project (Preferrably VSCode or IntelliJ IDEA)
 
 3. **Setting up Docker Containers**
+   - Open the Docker Desktop application on your system.
    - For the first time using this service, you need to setup the containers and access the application using this command
      ```
      docker compose up --build
@@ -43,14 +44,14 @@ Follow the steps below to install and run the project locally:
      docker compose up
      ```
 
-4. **Accessing and using the service**
+5. **Accessing and using the service**
    - Once the docker setup is done, open a browser and navigate to
      ```
      localhost:3000
      ```
    - You will now be able to access the service effortlessly.
 
-5. **Accessing the Database**
+6. **Accessing the Database**
    - To view the data created and managed by the service, open MongoDB Compass.
    - Add a new connection by entering this URI
      ```
