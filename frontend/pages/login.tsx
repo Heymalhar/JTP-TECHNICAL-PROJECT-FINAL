@@ -38,7 +38,7 @@ export default function LoginPage() {
             }
 
             setMessage(data.message || "Login Successful!");
-            localStorage.setItem("loggedInUsername", username);
+            sessionStorage.setItem("loggedInUsername", username);
 
             setTimeout(() => {
                 router.push("/app");
