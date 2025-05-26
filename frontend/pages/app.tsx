@@ -23,7 +23,7 @@ export default function AppPage() {
   const [buttonLabel, setButtonLabel] = useState("Get Recommendations");
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("loggedInUsername");
+    const storedUser = sessionStorage.getItem("loggedInUsername");
     if (!storedUser) {
       router.push("/login");
     } else {
@@ -32,7 +32,7 @@ export default function AppPage() {
   }, [router]);
 
   function logout() {
-    localStorage.removeItem("loggedInUsername");
+    sessionStorage.removeItem("loggedInUsername");
     router.push("/");
   }
 
