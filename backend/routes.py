@@ -63,13 +63,39 @@ def recommend():
             return jsonify({"error": "username and exactly 3 track names are required"}), 400
         
         input_vector = compute_mean_vector(track_names)
-        input_ids = [get_track_vector(name)[1] for name in track_names]
 
+        input_ids = []
+        input_artists = set()
+        input_genres = set()
+
+        for name in track_names:
+            vector, track_id = get_track_vector(name)
+            input_ids.append(track_id)
+
+            track_doc = tracks_col.find_one({"track_id": track_id}, {"artists": 1, "track_genre": 1})
+            if track_doc:
+                if isinstance(track_doc.get("artists"), list):
+                    input_artists.update(track_doc["artists"])
+                else:
+                    input_artists.add(track_doc.get("artists"))
+                
+                input_genres.add(track_doc.get("track_genre"))
+        
         combination_key = "_".join(map(str, sorted(input_ids)))
         user_doc = users_col.find_one({"username": username})
         seen_ids = user_doc.get("recommendation_history", {}).get(combination_key, []) if user_doc else []
 
-        recommendations = recommend_tracks(input_vector, input_ids, seen_ids)
+        recommendations = recommend_tracks(
+            input_vector,
+            input_ids,
+            seen_ids,
+            input_artists=input_artists,
+            input_genres=input_genres,
+            alpha=0.5,
+            beta=0.1,
+            gamma=0.4
+        )
+
         final_output = store_recommendations(username, input_ids, recommendations)
 
         return jsonify({"recommendations": final_output}), 200
@@ -78,6 +104,7 @@ def recommend():
         return jsonify({"error": str(ve)}), 404
     except Exception as e:
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
+
     
 @routes.route("/api/history", methods=["POST"])
 def history():
