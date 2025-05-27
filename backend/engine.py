@@ -27,23 +27,38 @@ def compute_mean_vector(track_names):
         vectors.append(vec)
     return np.mean(vectors, axis=0)
 
-def recommend_tracks(input_vector, input_track_ids, seen_ids):
+def recommend_tracks(input_vector, input_track_ids, seen_ids, input_artists=None, input_genres=None, alpha=0.5, beta=0.1, gamma=0.4):
+
     noisy_vector = input_vector + np.random.normal(0, NOISE_STD, size=input_vector.shape)
 
     cursor = tracks_col.find({}, {
-        "track_name": 1, "artists": 1, "track_genre": 1,
-        "popularity": 1, "normalized_vector": 1, "track_id": 1
+        "track_name": 1, "artists": 1, "track_genre": 1, "popularity": 1, "normalized_vector": 1, "track_id": 1
     })
     all_tracks = list(cursor)
 
     matrix = np.array([doc["normalized_vector"] for doc in all_tracks])
     track_ids = [doc["track_id"] for doc in all_tracks]
 
-    similarities = cosine_similarity([noisy_vector], matrix).flatten()
-    similarity_pairs = list(zip(track_ids, similarities))
-    similarity_pairs = sorted(similarity_pairs, key=lambda x: x[1], reverse=True)
+    cosine_similarities = cosine_similarity([noisy_vector], matrix).flatten()
 
-    top_similar = [track_id for track_id, _ in similarity_pairs if track_id not in input_track_ids and track_id not in seen_ids][:TOP_N]
+    hybrid_scores = []
+
+    for idx, doc in enumerate(all_tracks):
+        cosine_score = cosine_similarities[idx]
+
+        genre_match = 1.0 if input_genres and doc.get("track_genre") in input_genres else 0.0
+        artist_match = 1.0 if input_artists and doc.get("artists") in input_artists else 0.0
+
+        hybrid_score = (
+            alpha * cosine_score +
+            beta * genre_match +
+            gamma * artist_match
+        )
+
+        hybrid_scores.append((doc["track_id"], hybrid_score))
+    
+    sorted_scores = sorted(hybrid_scores, key=lambda x:x[1], reverse=True)
+    top_similar = [track_id for track_id, _ in sorted_scores if track_id not in input_track_ids and track_id not in seen_ids][:TOP_N]
 
     sampled = random.sample(top_similar, k=min(SAMPLE_K, len(top_similar)))
 
@@ -51,10 +66,10 @@ def recommend_tracks(input_vector, input_track_ids, seen_ids):
 
     for tid in sampled:
         doc = next(item for item in all_tracks if item["track_id"] == tid)
-        doc["similarity_score"] = round(similarities[track_ids.index(tid)], 4)
+        doc["similarity_score"] = round(cosine_similarities[track_ids.index(tid)], 4)
         doc.pop("_id", None)
         recommendations.append(doc)
-
+    
     return recommendations
 
 def store_recommendations(username, input_ids, new_recommendations):
@@ -168,23 +183,50 @@ if __name__ == "__main__":
                 print(msg)
 
             elif choice == "3":
-                username = input("Enter username: ").strip()
-                track_inputs = [input(f"Enter track name {i+1}: ").strip() for i in range(3)]
+                username = input("Enter Username: ").strip()
+                track_inputs = [input(f"Enter tarck name {i+1}: ").strip() for i in range(3)]
 
                 input_vector = compute_mean_vector(track_inputs)
-                input_ids = [get_track_vector(name)[1] for name in track_inputs]
+
+                input_ids = []
+                input_artists = set()
+                input_genres = set()
+
+                for name in track_inputs:
+                    vector, track_id = get_track_vector(name)
+                    input_ids.append(track_id)
+
+                    track_doc = tracks_col.find_one({"track_id": track_id}, {"artists": 1, "track_genre": 1})
+                    if track_doc:
+                        if isinstance(track_doc.get("artists"), list):
+                            input_artists.update(track_doc["artists"])
+                        else:
+                            input_artists.add(track_doc.get("artists"))
+                        
+                        input_genres.add(track_doc.get("track_genre"))
 
                 combination_key = "_".join(map(str, sorted(input_ids)))
                 user_doc = users_col.find_one({"username": username})
                 seen_ids = user_doc.get("recommendation_history", {}).get(combination_key, []) if user_doc else []
 
-                recommendations = recommend_tracks(input_vector, input_ids, seen_ids)
+                recommendations = recommend_tracks(
+                    input_vector,
+                    input_ids,
+                    seen_ids,
+                    input_artists=input_artists,
+                    input_genres=input_genres,
+                    alpha=0.5,
+                    beta=0.1,
+                    gamma=0.4
+                )
+
                 final_output = store_recommendations(username, input_ids, recommendations)
 
                 if not final_output:
-                    print("\nAll Caught Up.")
+                    print("\nALL CAUGHT UP.")
+                
                 else:
-                    print(f"\n Recommendations for {username}:")
+                    print(f"\nRecommendations for {username}: ")
                     for idx, track in enumerate(final_output, 1):
                         print(f"{idx}. {track['track_name']} by {track['artists']} (Genre: {track['track_genre']})")
 
