@@ -8,12 +8,12 @@ The system enables users to receive **personalized music recommendations** based
 
 ## 📚 Table of Contents
 - [🧠 Project Description](#project-description)
-- [📌 Features](#features)
-- [🧪 Recommendation Algorithm](#recommendation-algorithm)
-- [🖼️ Application Pages](#️application-pages)
-- [📁 Repository Structure](#repository-structure)
-- [🧰 Tech Stack](#tech-stack)
-- [⚙️ Installation Guide](#️installation-guide-and-user-manual)
+- [📌 Features](#-features)
+- [🧪 Recommendation Algorithm](#-recommendation-algorithm)
+- [🖼️ Application Pages](#️-application-pages)
+- [📁 Repository Structure](#-repository-structure)
+- [🧰 Tech Stack](#-tech-stack)
+- [⚙️ Installation Guide](#️-installation-guide-and-user-manual)
 - [🚧 Project Status](#-project-status)
 - [📬 Contact](#-contact)
 
