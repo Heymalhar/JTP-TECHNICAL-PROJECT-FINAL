@@ -85,8 +85,11 @@ The recommendation engine utilizes a **modified cosine similarity** model with a
 
 ```bash
 .
-├── backend/         # Flask backend, recommendation logic, database handlers
-└── frontend/        # Next.js frontend application
+├── backend/           # Flask backend, recommendation logic, database handlers
+└── frontend/          # Next.js frontend application
+└── .gitignore
+└── README.md
+└── docker-compose.yml # .yml file for container orchestration
 ```
 
 ---
