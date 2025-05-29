@@ -8,13 +8,12 @@ The system enables users to receive **personalized music recommendations** based
 
 ## 📚 Table of Contents
 - [🧠 Project Description](#project-description)
-- [📌 Features](#-features)
-- [🧪 Recommendation Algorithm](#-recommendation-algorithm)
-- [🖼️ Application Pages](#️-application-pages)
-- [📁 Repository Structure](#-repository-structure)
-- [🧰 Tech Stack](#-tech-stack)
-- [⚙️ Installation Guide](#️-installation-guide)
-- [🗃️ Database Access](#️-database-access)
+- [📌 Features](#features)
+- [🧪 Recommendation Algorithm](#recommendation-algorithm)
+- [🖼️ Application Pages](#️application-pages)
+- [📁 Repository Structure](#repository-structure)
+- [🧰 Tech Stack](#tech-stack)
+- [⚙️ Installation Guide](#️installation-guide-and-user-manual)
 - [🚧 Project Status](#-project-status)
 - [📬 Contact](#-contact)
 
@@ -149,8 +148,20 @@ To set up and run the project locally:
      mongodb://localhost:27018
      ```
 
-   | Name  | Description |
-   |-------|-------------|
+   |    Name   |   Description   |
+   |-----------|-----------------|
    | **music_db** | Name of the database |
    | **tracks** | Collection to store the preprocessed Spotify tracks dataset |
    | **user_info** | Collection to store the user credentials and their recommendation history |
+
+--- 
+
+## 🚧 Project Status
+
+This project has been developed as a part of the technical assessment process at **JTP Co. LTD.** It is intended solely for evaluation purposes and is not production-ready.
+
+---
+
+## 📬 Contact
+
+For queries or feedback, please feel free to reach out to the author, **Malhar Pandya** (*Malhar.pce21@sot.pdpu.ac.in*)
