@@ -2,12 +2,14 @@
 
 This repository hosts the official implementation of the **Dynamic Music Recommendation System**, developed as a technical deliverable for the recruitment process at **JTP Co. LTD**.
 
+Candidate Name: **Malhar Pandya**, Email ID: *malhar.pce21@sot.pdpu.ac.in*
+
 The system enables users to receive **personalized music recommendations** based on their preferences, while offering dynamic and non-repetitive outputs. Built using modern web technologies and containerized infrastructure, the project demonstrates a full-stack approach to intelligent content delivery.
 
 ---
 
 ## 📚 Table of Contents
-- [🧠 Project Description](#project-description)
+- [🧠 Project Description](#-project-description)
 - [📌 Features](#-features)
 - [🧪 Recommendation Algorithm](#-recommendation-algorithm)
 - [🖼️ Application Pages](#️-application-pages)
@@ -19,14 +21,14 @@ The system enables users to receive **personalized music recommendations** based
 
 ---
 
-## Project Description
+## 🧠 Project Description
 
 The **Dynamic Music Recommendation System** is an end-to-end web application that allows users to:
 - Register and authenticate into a personal music dashboard.
 - Input **3 preferred songs** and receive **real-time recommendations**.
 - View previously generated recommendations for the same combination of tracks.
 
-The recommendation engine is designed to generate **non-repetitive**, **relevance-bound** results based on user input and contextual song features.
+The recommendation engine is designed to generate **dynamic**, **non-repetitive**, and **relevance-bound** results based on user input and contextual song features.
 
 ---
 
@@ -34,8 +36,8 @@ The recommendation engine is designed to generate **non-repetitive**, **relevanc
 
 - 🔐 **User Authentication** – Secure sign-up and login flow with session handling.
 - 🎧 **Personalized Recommendations** – Enter 3 favorite songs and get curated suggestions.
-- 🔁 **Dynamicity** – Ensures fresh, yet relevant, recommendations for repeated inputs.
-- 🗂️ **History Tracking** – Stores and retrieves prior recommendations for identical song combinations.
+- 🔁 **Dynamicity** – Ensures fresh, yet relevant, recommendations for the same set of inputs.
+- 🗂️ **History Tracking** – Stores and retrieves prior recommendations for a particular input songs' combination.
 - 🔎 **Fine-Grained Scoring** – Multi-factor scoring using similarity, artist match, and genre alignment.
 - 💻 **Full Stack Architecture** – Seamless frontend-backend integration with containerized deployment.
 
@@ -48,7 +50,7 @@ The recommendation engine utilizes a **modified cosine similarity** model with a
 1. **Vector Storage**: All tracks in the dataset are preprocessed to compute and store normalized feature vectors.
 2. **Input Aggregation**: For any 3 input tracks, the **mean normalized feature vector** is computed.
 3. **Dynamic Adjustment**: Small Gaussian noise (`std = 0.015`) is added to introduce controlled randomness.
-4. **Cosine Similarity**: Top 100 tracks are ranked by descending similarity score.
+4. **Cosine Similarity**: Top 100 tracks are ranked by descending similarity score, after calculating the cosine similarity for each pair of the **mean normalized feature vector** and the **normalized feature vector** of the other songs in the database.
 5. **Final Score Composition**:
    - **50%** – Cosine similarity
    - **40%** – Artist overlap (if any artist matches input artists)
@@ -67,7 +69,7 @@ The recommendation engine utilizes a **modified cosine similarity** model with a
 | **Landing Page** | Entry point to the application with options to sign up or log in. |
 | **Signup Page** | Form requiring **username**, **email**, and **password** to create an account. |
 | **Login Page** | Secure login form using username and password. |
-| **Main App Page** | Central interface with the following options:<br>• Enter 3 preferred tracks<br>• Get recommendations<br>• View past recommendations<br>• Logout |
+| **Main App Page** | Central interface with the following actions:<br>• Enter 3 preferred tracks<br>• Get recommendations<br>• View past recommendations<br>• Logout |
 
 > 🔐 **Access Control**: Direct access to the main app page is **restricted** unless the user is authenticated.
 
@@ -78,7 +80,6 @@ The recommendation engine utilizes a **modified cosine similarity** model with a
 ![image](https://github.com/user-attachments/assets/59d3798b-ce92-40a4-b1af-a1fe709b83c9)
 ![image](https://github.com/user-attachments/assets/86c5d0be-70f0-41f9-a99f-864fdf567519)
 ![image](https://github.com/user-attachments/assets/20ec70bc-f9fa-41ee-8975-ac20d92cf672)
-
 
 ---
 
@@ -114,13 +115,17 @@ To set up and run the project locally:
 
 1. **📥 Download & Extract**
    
-   - Download the repository ZIP and extract it to your system.
+   - Download the repository ZIP and extract it on your system (preferably by copying and pasting the project folder).
 
 2. **🧩 Prerequisites**
    
    - Ensure the following tools are installed on your system and running perfectly: i. Docker Desktop. ii. MongoDB Compass. iii. Code Editor (VSCode or IntelliJ recommended).
+
+   - **External issues with these tools will NOT be considered as a shortcoming of the project submitted by the candidate**. 
   
 3. **🛠️ Setup Using Docker**
+
+   - Open the project directory in the code editor (preferably VSCode).
    
    - Navigate to the root directory in your terminal.
      
@@ -134,7 +139,7 @@ To set up and run the project locally:
      docker compose up
      ```
 
-4. **🌐 Accessing the Application**
+5. **🌐 Accessing the Application**
    
    - Once the setup is complete, open your browser and visit
      
@@ -143,7 +148,7 @@ To set up and run the project locally:
      ```
    - You can now interact with the system.
 
-5. **🗃️ Database Access**
+6. **🗃️ Database Access**
 
    - To inspect the data, open MongoDB Compass.
   
@@ -151,6 +156,8 @@ To set up and run the project locally:
      ```
      mongodb://localhost:27018
      ```
+
+   - The following will be created as the elements of the database
 
    |    Name   |   Description   |
    |-----------|-----------------|
