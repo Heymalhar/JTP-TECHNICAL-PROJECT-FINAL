@@ -13,7 +13,7 @@ The system enables users to receive **personalized music recommendations** based
 - [🖼️ Application Pages](#️-application-pages)
 - [📁 Repository Structure](#-repository-structure)
 - [🧰 Tech Stack](#-tech-stack)
-- [⚙️ Installation Guide](#️-installation-guide-and-user-manual)
+- [⚙️ Installation Guide and User Manual](#️-installation-guide-and-user-manual)
 - [🚧 Project Status](#-project-status)
 - [📬 Contact](#-contact)
 
