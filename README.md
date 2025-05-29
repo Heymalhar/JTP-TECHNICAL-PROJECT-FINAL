@@ -92,4 +92,17 @@ The recommendation engine utilizes a **modified cosine similarity** model with a
 
 ---
 
-##
+## 🧰 Tech Stack
+
+| Layer   | Technology  |
+|---------|-------------|
+| **Frontend** | Next.js |
+| **Backend** | Python (PyMongo, Scikit-Learn, Numpy, Pandas, and Flask) |
+| **Database** | MongoDB Compass |
+| **Containers** | MongoDB Compass (Docker Compose Setup) |
+| **Recommendation Algorith** | Cosine Similarity + Weighted Scoring |
+| **Dataset Source** | Kaggle (https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) |
+
+---
+
+## ⚙️ Installation Guide and User Manual
