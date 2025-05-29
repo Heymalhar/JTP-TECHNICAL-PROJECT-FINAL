@@ -150,7 +150,7 @@ To set up and run the project locally:
 
 6. **🗃️ Database Access**
 
-   - To inspect the data, open MongoDB Compass.
+   - To inspect the data, open MongoDB Compass, while keeping the containers running.
   
    - Create a new connection string using the URI:
      ```
