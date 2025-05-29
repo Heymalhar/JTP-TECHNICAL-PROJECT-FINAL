@@ -106,3 +106,51 @@ The recommendation engine utilizes a **modified cosine similarity** model with a
 ---
 
 ## ⚙️ Installation Guide and User Manual
+
+To set up and run the project locally:
+
+1. **📥 Download & Extract**
+   
+   - Download the repository ZIP and extract it to your system.
+
+2. **🧩 Prerequisites**
+   
+   - Ensure the following tools are installed on your system and running perfectly: i. Docker Desktop. ii. MongoDB Compass. iii. Code Editor (VSCode or IntelliJ recommended).
+  
+3. **🛠️ Setup Using Docker**
+   
+   - Navigate to the root directory in your terminal.
+     
+   - For the first-time setup, run this command to initiate
+     ```
+     docker compose up --build
+     ```
+
+   - For the subsequent runs, use this command
+     ```
+     docker compose up
+     ```
+
+4. **🌐 Accessing the Application**
+   
+   - Once the setup is complete, open your browser and visit
+     
+     ```
+     http://localhost:3000
+     ```
+   - You can now interact with the system.
+
+5. **🗃️ Database Access**
+
+   - To inspect the data, open MongoDB Compass.
+  
+   - Create a new connection string using the URI:
+     ```
+     mongodb://localhost:27018
+     ```
+
+   | Name  | Description |
+   |-------|-------------|
+   | **music_db** | Name of the database |
+   | **tracks** | Collection to store the preprocessed Spotify tracks dataset |
+   | **user_info** | Collection to store the user credentials and their recommendation history |
